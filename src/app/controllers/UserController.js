@@ -1,7 +1,7 @@
 import { prisma } from '../../database/prisma'
 import * as Yup from 'yup'
 import bcrypt from "bcrypt"
-import Mail from "../../lib/Mail"
+import { emailQueue } from "../../queues/emailQueue";
 
 class UserController    {
 
@@ -83,11 +83,9 @@ class UserController    {
             }
         })
 
-        await Mail.send({
-            to: `${user.username} <${user.email}>`,
-            subject: "Bem-vindo ao nosso sistema",
-            text: `Olá ${user.username}, obrigado por se cadastrar!`,
-        })
+        await emailQueue.add("welcome-email", {
+        userId: user.id,
+        });
 
         
         return res.status(201).json(user)

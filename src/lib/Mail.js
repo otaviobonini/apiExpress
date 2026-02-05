@@ -1,6 +1,5 @@
-import { send } from 'node:process';
 import nodemailer from 'nodemailer';
-import mailConfig from '../app/middlewares/mail';
+import mailConfig from '../app/middlewares/mail.js';
 
 class Mail {
     constructor() {
