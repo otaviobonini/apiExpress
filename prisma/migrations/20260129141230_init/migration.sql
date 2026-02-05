@@ -1,0 +1,6 @@
+-- CreateTable
+CREATE TABLE "Customer" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "site" TEXT
+);

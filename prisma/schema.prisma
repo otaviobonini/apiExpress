@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider     = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Customer {
+  id   Int    @id @default(autoincrement()) 
+  name String
+  email String @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  contacts Contacts[]
+
+}
+ 
+model Contacts {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  status Boolean @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  customer_id Int 
+  customer Customer @relation(fields: [customer_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  username String @unique
+  email String @unique
+  provider Boolean @default(false)
+  password_hash String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  files         File[]
+}
+
+model File {
+  id Int @id @default(autoincrement())
+  name String
+  path String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user_id       Int
+  user          User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
